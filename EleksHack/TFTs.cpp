@@ -11,13 +11,13 @@ void TFTs::begin() {
   enableAllDisplays();
 
   // Initialize the super class.
-  init();  
+  init();
 }
-
+/*
 void TFTs::beginJpg()
 {
   root = LITTLEFS.open("/");  
-}
+}*/
 
 int TFTs::EndsWith(const char *str, const char *suffix)
 {
@@ -38,7 +38,7 @@ void TFTs::showSlice( char * filename, int devicenum )
     drawSdJpeg( filename, 0, 0);
 }
 
-
+/*
 void TFTs::showNextJpg()
 {
     fs::File file = root.openNextFile();
@@ -70,7 +70,7 @@ void TFTs::showNextJpg()
           }          
         }
     }
-}
+}*/
 
 void TFTs::chooseRandomDisplay()
 {
@@ -84,11 +84,30 @@ void TFTs::chooseRandomDisplay()
 
 // Modified code from TFT_eSPI examples, combined ESP32_SDcard_JPEG and TFT_SPIFFS_BMP
 
+void TFTs::drawJpeg(const uint8_t* buf, int xpos, int ypos, uint32_t size) {
+
+  bool swapBytes = getSwapBytes();
+  setSwapBytes(true);
+  TJpgDec.drawJpg(xpos, ypos, buf, size);
+  setSwapBytes(swapBytes);
+}
+
+
 //####################################################################################################
 // Draw a JPEG on the TFT pulled from SD Card
 //####################################################################################################
 // xpos, ypos is top left corner of plotted image
 void TFTs::drawSdJpeg(const char *filename, int xpos, int ypos) {
+
+  // Time recorded for test purposes
+  //uint32_t t = millis();
+  bool swapBytes = getSwapBytes();
+  setSwapBytes(true);
+  TJpgDec.drawFsJpg(xpos, ypos, filename, LittleFS);
+  setSwapBytes(swapBytes);
+  //t = millis() - t;
+  //Serial.print(t); Serial.println(" ms JPeg draw");
+  /*
 
   // Open the named file (the Jpeg decoder library will close it)
   fs::File jpegFile = LITTLEFS.open( filename, FILE_READ);  // or, file handle reference for SD library
@@ -98,9 +117,9 @@ void TFTs::drawSdJpeg(const char *filename, int xpos, int ypos) {
     return;
   }
 
-  Serial.println("===========================");
-  Serial.print("Drawing file: "); Serial.println(filename);
-  Serial.println("===========================");
+  //Serial.println("===========================");
+  //Serial.print("Drawing file: "); Serial.println(filename);
+  //Serial.println("===========================");
 
   // Use one of the following methods to initialise the decoder:
   boolean decoded = JpegDec.decodeSdFile(jpegFile);  // Pass the SD file handle to the decoder,
@@ -108,15 +127,17 @@ void TFTs::drawSdJpeg(const char *filename, int xpos, int ypos) {
 
   if (decoded) {
     // print information about the image to the serial port
-    jpegInfo();
+    //jpegInfo();
     // render the image onto the screen at given coordinates
     jpegRender(xpos, ypos);
   }
   else {
     Serial.println("Jpeg file format not supported");
   }
+  */
 }
 
+/*
 //####################################################################################################
 // Draw a JPEG on the TFT, images will be cropped on the right/bottom sides if they do not fit
 //####################################################################################################
@@ -249,7 +270,7 @@ void TFTs::showTime(uint32_t msTime) {
   Serial.print(F(" JPEG drawn in "));
   Serial.print(msTime);
   Serial.println(F(" ms "));
-}
+}*/
 
 void TFTs::setDigit(uint8_t digit, uint8_t value, show_t show) {
   uint8_t old_value = digits[digit];
@@ -268,7 +289,16 @@ void TFTs::showDigit(uint8_t digit) {
 
   // Filenames are no bigger than "255.bmp\0"
   char file_name[10];
-  sprintf(file_name, "/%d.bmp", digits[digit]);
+  sprintf(file_name, "/%d.jpg", digits[digit]);
+  drawSdJpeg(file_name, 0, 0);
+}
+
+
+/* 
+ * Where the rubber meets the road.  Displays the bitmap for the value to the given digit. 
+ */
+void TFTs::drawBitmapFileOnDisplay(uint8_t displayDigit, const char* file_name) {
+  chip_select.setDigit(displayDigit);
   drawBmp(file_name, 0, 0);
 }
 
@@ -285,7 +315,7 @@ bool TFTs::drawBmp(const char *filename, int16_t x, int16_t y) {
   fs::File bmpFS;
 
   // Open requested file on SD card
-  bmpFS = LITTLEFS.open(filename, "r");
+  bmpFS = LittleFS.open(filename, "r");
 
   if (!bmpFS)
   {

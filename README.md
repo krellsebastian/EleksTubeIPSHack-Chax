@@ -1,4 +1,36 @@
-# ElekstubeIPSHack - Hacking the Elekstube IPS ESP32 TFT based clock
+# ElekstubeIPSHack - Chax Fork
+
+## Modifications
+
+In order to use this project and learn about it please read original readme below, coming from the great work from [FrankCohen](https://github.com/frankcohen/EleksTubeIPSHack).
+This section only highlights the modifications.
+
+* Removed all prev. modes
+* Added Endpoints
+* Modified startup behavior
+* Replaced JPGDecoder with newer TJPG_Decoder
+
+## Configuration
+You can configure the device by enabling the webserver. This can be done after boot by pressing the "left" button (labeld <<).
+After pressing the server will boot and display instructions to connect to.
+
+You should configure your WLAN credentials as well as Endpoints.
+
+## Endpoints
+
+The clock will try to connect to over internet reachable endpoints. These Endpoints shall provide a number which is then displayed by the Elekstube.
+For configuration you need to provide the URL and a Filename. You can upload files under the "manage"-Points on the webserver.
+
+## Run Mode
+The device will loop through the endpoints and display their file on the most right tube. After that, the number provided by the endpoint.
+Given a number exceeds 5 digits the "k" postfix will be added.
+If an endpoint failes for more than 5 times a "?" will be displayed with a bit of debug information.
+
+Time how fast endpoints shall be looped as well as their update interval can be managed within the "endpoint"-settings on the webserver.
+Be aware: An enpoint is only updated when also displayed, to faster update than rotate time is not possible.
+
+
+#Original Readme
 
 [EleksTube IPS](https://www.banggood.com/Pseudo-glow-Tube-Programmable-Display-IPS-Screen-RGB-Clock-Desktop-Creative-Ornaments-Digital-Clock-Colorful-LED-Picture-Display-p-1789259.html?rmmds=myorder&cur_warehouse=CN) is an ESP32-based digital clock. It appears to be the first in a wave of new 32-bit network-enabled multiple display products.
 

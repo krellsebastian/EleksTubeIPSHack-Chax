@@ -16,6 +16,8 @@ public:
   // An un-written to Flash will return all 0xFF.  So if we haven't been written to, we should start up with defaults.
 
   const static uint8_t str_buffer_size = 32;
+  const static uint8_t url_buffer_size = 128;
+  const static uint8_t endpoint_buffer_size = 5;
 
   struct Config {
     struct Status{
@@ -44,6 +46,19 @@ public:
       char     password[str_buffer_size];
       uint8_t  is_valid;       // Write StoredConfig::valid here when valid data is loaded.
     } wifi;
+
+    struct PollingEndpoint {
+      char logoFile[str_buffer_size];
+      char endpointUrl[url_buffer_size];
+      uint8_t  is_valid;
+    };
+    struct PollingEndpointList {
+      uint16_t tRot;
+      uint16_t tPoll;
+      PollingEndpoint ep[endpoint_buffer_size];
+      uint8_t  is_valid;
+    } endpoints;
+
   } config;
 
   const static uint8_t valid = 0x55;  // neither 0x00 nor 0xFF, signaling loaded config isn't just default data.

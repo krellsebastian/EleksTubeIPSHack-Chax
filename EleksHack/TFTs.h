@@ -9,7 +9,8 @@
 #include <TFT_eSPI.h>
 #include "Hardware.h"
 #include "ChipSelect.h"
-#include <JPEGDecoder.h>
+//#include <JPEGDecoder.h>
+#include <TJpg_Decoder.h>
 
 
 class TFTs : public TFT_eSPI {
@@ -36,9 +37,12 @@ public:
   ChipSelect chip_select;
 
   // @frankcohen: additions
-  void beginJpg();
-  void showNextJpg();
+  //void beginJpg();
+  //void showNextJpg();
   void showSlice( char * filename, int displaynum );
+  void drawBitmapFileOnDisplay(uint8_t displayDigit, const char* file_name);
+  void drawJpeg(const uint8_t* buf, int xpos, int ypos, uint32_t size);
+  void drawSdJpeg(const char *filename, int xpos, int ypos);
 
 private:
   uint8_t digits[NUM_DIGITS];
@@ -55,10 +59,9 @@ private:
   int EndsWith(const char *str, const char *suffix);
   int EndsWithJPG(const char *str);
   void chooseRandomDisplay();
-  void drawSdJpeg(const char *filename, int xpos, int ypos);
-  void jpegRender(int xpos, int ypos);
-  void jpegInfo();
-  void showTime(uint32_t msTime);
+  //void jpegRender(int xpos, int ypos);
+  //void jpegInfo();
+  //void showTime(uint32_t msTime);
 
 
 

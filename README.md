@@ -34,7 +34,7 @@ Time how fast endpoints shall be looped as well as their update interval can be 
 Be aware: An enpoint is only updated when also displayed, to faster update than rotate time is not possible.
 
 
-#Original Readme
+# Original Readme
 
 [EleksTube IPS](https://www.banggood.com/Pseudo-glow-Tube-Programmable-Display-IPS-Screen-RGB-Clock-Desktop-Creative-Ornaments-Digital-Clock-Colorful-LED-Picture-Display-p-1789259.html?rmmds=myorder&cur_warehouse=CN) is an ESP32-based digital clock. It appears to be the first in a wave of new 32-bit network-enabled multiple display products.
 

@@ -5,10 +5,11 @@
 In order to use this project and learn about it please read original readme below, coming from the great work from [FrankCohen](https://github.com/frankcohen/EleksTubeIPSHack).
 This section only highlights the modifications.
 
-* Removed all prev. modes
-* Added Endpoints
-* Modified startup behavior
+* Removed clock and jpgs-slideshow modes
+* Added Endpoints feature
+* Modified startup behavior (AP only when activated by button)
 * Replaced JPGDecoder with newer TJPG_Decoder
+* Added Splash-screen animation
 
 ## Configuration
 You can configure the device by enabling the webserver. This can be done after boot by pressing the "left" button (labeld <<).
@@ -20,6 +21,9 @@ You should configure your WLAN credentials as well as Endpoints.
 
 The clock will try to connect to over internet reachable endpoints. These Endpoints shall provide a number which is then displayed by the Elekstube.
 For configuration you need to provide the URL and a Filename. You can upload files under the "manage"-Points on the webserver.
+
+The Images must be .jpg with 135x240 and **NOT Progressiv**.
+As test endpoint you could use this repositories [test txt file](https://raw.githubusercontent.com/krellsebastian/EleksTubeIPSHack-Chax/main/EleksHack/data/test.txt).
 
 ## Run Mode
 The device will loop through the endpoints and display their file on the most right tube. After that, the number provided by the endpoint.
